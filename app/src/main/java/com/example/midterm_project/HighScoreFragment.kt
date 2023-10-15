@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -15,6 +16,7 @@ import kotlinx.coroutines.withContext
 class HighScoreFragment : Fragment() {
     private lateinit var adapter: ScoreAdapter
     private lateinit var recyclerView: RecyclerView
+    private lateinit var noScoresTextView: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,22 +28,34 @@ class HighScoreFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        recyclerView = view.findViewById(R.id.highScoresRecyclerView)
+        noScoresTextView = view.findViewById(R.id.noScoresTextView)
+
+        // Set the RecyclerView's LayoutManager
+        recyclerView.layoutManager = LinearLayoutManager(context)
+
+        fetchScoresAndSetupAdapter()
+    }
+
+    private fun fetchScoresAndSetupAdapter() {
         GlobalScope.launch(Dispatchers.IO) {
             val scores = MainActivity.db.scoreDao().getAllScores()
             withContext(Dispatchers.Main) {
                 if (scores.isEmpty()) {
-                    view.findViewById<TextView>(R.id.noScoresTextView).visibility = View.VISIBLE
+                    noScoresTextView.visibility = View.VISIBLE
+                    recyclerView.visibility = View.GONE
                 } else {
+                    noScoresTextView.visibility = View.GONE
                     adapter = ScoreAdapter(scores) { score ->
                         showDeleteConfirmationDialog(score)
                     }
                     recyclerView.adapter = adapter
+                    adapter.notifyDataSetChanged()
                 }
             }
         }
-
-        // TODO: Any other logic you want in this method
     }
+
     private fun showDeleteConfirmationDialog(score: Score) {
         val dialog = DeleteConfirmationDialog(score) { confirmedScore ->
             deleteScore(confirmedScore)
@@ -52,15 +66,7 @@ class HighScoreFragment : Fragment() {
     private fun deleteScore(score: Score) {
         GlobalScope.launch(Dispatchers.IO) {
             MainActivity.db.scoreDao().delete(score.id)
-            // Refresh the list after deletion
-            val scores = MainActivity.db.scoreDao().getAllScores()
-            withContext(Dispatchers.Main) {
-                adapter = ScoreAdapter(scores) { scoreToBeDeleted ->
-                    showDeleteConfirmationDialog(scoreToBeDeleted)
-                }
-                recyclerView.adapter = adapter
-            }
+            fetchScoresAndSetupAdapter()  // Refresh the list after deletion
         }
     }
-
 }
