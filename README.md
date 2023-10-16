@@ -19,7 +19,8 @@ Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
 
-![final_midterm_video](https://github.com/magacek/Midterm_project/assets/70607808/a1d3852b-0a6b-4fe2-9837-6fc0709a0758)
+![final_midterm_video-2](https://github.com/magacek/Midterm_project/assets/70607808/d07b1870-c02a-4fbc-839f-533ebf8c6981)
+
 
 GIF created with LiceCap.
 
