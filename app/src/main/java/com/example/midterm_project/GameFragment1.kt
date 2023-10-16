@@ -1,11 +1,13 @@
 package com.example.midterm_project
 
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -15,7 +17,22 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import androidx.navigation.fragment.findNavController
-
+/**
+ * Represents the main game interface for guessing a randomly generated number between 1 and 100.
+ *
+ * <p>The fragment layout (`fragment_game_1`) includes functionality to increment and decrement
+ * the user's guess using dedicated buttons, an EditText for entering guesses, and a button to
+ * submit a guess. On a correct guess, the user's information is stored in the database and
+ * navigation proceeds to the `mainFragment`. If the guess is incorrect, appropriate feedback
+ * is given to the user through toasts and a sound effect.</p>
+ *
+ * <p>The fragment leverages a shared `GameViewModel` to keep track of the game state and
+ * interact with the main activity and other fragments.</p>
+ *
+ * @author Matt Gacek
+ * @see GameViewModel
+ * @see MainActivity
+ */
 class GameFragment1 : Fragment() {
     private var randomNumber = 0
     private val viewModel: GameViewModel by activityViewModels()
@@ -36,7 +53,7 @@ class GameFragment1 : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Minus button logic
-        view.findViewById<Button>(R.id.decrementButton).setOnClickListener {
+        view.findViewById<ImageButton>(R.id.decrementButton).setOnClickListener {
             val currentValue = view.findViewById<EditText>(R.id.guessNumberEditText).text.toString().toIntOrNull() ?: 0
             if (currentValue > 0) {
                 view.findViewById<EditText>(R.id.guessNumberEditText).setText((currentValue - 1).toString())
@@ -44,7 +61,7 @@ class GameFragment1 : Fragment() {
         }
 
         // Plus button logic
-        view.findViewById<Button>(R.id.incrementButton).setOnClickListener {
+        view.findViewById<ImageButton>(R.id.incrementButton).setOnClickListener {
             val currentValue = view.findViewById<EditText>(R.id.guessNumberEditText).text.toString().toIntOrNull() ?: 0
             view.findViewById<EditText>(R.id.guessNumberEditText).setText((currentValue + 1).toString())
         }
@@ -60,20 +77,28 @@ class GameFragment1 : Fragment() {
             }
         }
     }
+    private fun playIncorrectAnswerSound() {
+        val mediaPlayer = MediaPlayer.create(context, R.raw.wrong_sound)
+        mediaPlayer.start()
+        mediaPlayer.setOnCompletionListener { it.release() }
+    }
 
     private fun checkGuess(guess: Int) {
         viewModel.incrementAttempts()
 
-        // Debugging Toast to check the random number
 
         if (guess > randomNumber) {
             Toast.makeText(context, "Guess is lower!", Toast.LENGTH_SHORT).show()
+            playIncorrectAnswerSound()
         } else if (guess < randomNumber) {
             Toast.makeText(context, "Guess is higher!", Toast.LENGTH_SHORT).show()
+            playIncorrectAnswerSound()
         } else {
-            // Correct guess
             val playerName = view?.findViewById<EditText>(R.id.playerNameEditText)?.text.toString()
             val attempts = viewModel.numberOfAttempts.value ?: 0
+
+            viewModel.setLatestGameInfo(playerName, attempts)
+
             val score = Score(playerName = playerName, attempts = attempts)
 
             GlobalScope.launch(Dispatchers.IO) {

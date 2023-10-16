@@ -12,7 +12,22 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
+/**
+ * Represents a fragment (`HighScoreFragment`) that showcases a list of high scores to the user.
+ *
+ * <p>The fragment layout (`fragment_highscore`) provides a RecyclerView to display the scores
+ * and a TextView to inform the user when there are no scores available. The high scores are fetched
+ * from the database and shown in the RecyclerView using the `ScoreAdapter`. If a score is selected,
+ * a `DeleteConfirmationDialog` prompts the user for confirmation before deleting the score.</p>
+ *
+ * <p>Kotlin coroutines are utilized to perform database operations off the main thread, ensuring
+ * smooth UI interactions.</p>
+ *
+ * @author Matt Gacek
+ * @see ScoreAdapter
+ * @see DeleteConfirmationDialog
+ * @see MainActivity
+ */
 class HighScoreFragment : Fragment() {
     private lateinit var adapter: ScoreAdapter
     private lateinit var recyclerView: RecyclerView

@@ -11,7 +11,21 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
+/**
+ * Represents a fragment (`GameFragment2`) that displays game statistics and information to the user.
+ *
+ * <p>The fragment layout (`fragment_game_2`) contains views to present the user's score,
+ * number of attempts, and potentially other game metrics. The fragment fetches scores from
+ * the database and listens to changes in the shared `GameViewModel` to reflect the user's
+ * latest game attempts in real-time.</p>
+ *
+ * <p>The logic within this fragment utilizes Kotlin coroutines to ensure that database operations
+ * are performed off the main thread, providing smoother UI interactions.</p>
+ *
+ * @author Matt Gacek
+ * @see GameViewModel
+ * @see MainActivity
+ */
 class GameFragment2 : Fragment() {
 
     override fun onCreateView(
@@ -33,7 +47,6 @@ class GameFragment2 : Fragment() {
         GlobalScope.launch(Dispatchers.IO) {
             val scores = MainActivity.db.scoreDao().getAllScores()
             withContext(Dispatchers.Main) {
-                // TODO: Update RecyclerView with scores
             }
         }
 

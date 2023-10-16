@@ -8,6 +8,20 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.room.Room
 import com.example.midterm_project.AppDatabase
+/**
+ * The main activity of the application that serves as the primary entry point and navigation controller.
+ *
+ * <p>The activity layout (`activity_main`) contains a `NavHostFragment` which manages the navigation between
+ * various fragments. It also initializes the app's Room database (`AppDatabase`) for persistent data storage
+ * related to scores.</p>
+ *
+ * <p>The `MainActivity` offers a companion object with the initialized database instance, making it
+ * conveniently accessible to other components of the app.</p>
+ *
+ * @author Matt Gacek
+ * @see AppDatabase
+ * @see NavHostFragment
+ */
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,12 +43,7 @@ class MainActivity : AppCompatActivity() {
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
-
-        // Set up the action bar only after initializing the navController
-        NavigationUI.setupActionBarWithNavController(this, navController)
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        return NavigationUI.navigateUp(navController, null)
-    }
+
 }

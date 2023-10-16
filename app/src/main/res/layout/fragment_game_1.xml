@@ -12,32 +12,42 @@
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textSize="18sp"
+            android:layout_height="wrap_content"
             android:text="Player name:" />
 
         <EditText
             android:id="@+id/playerNameEditText"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_weight="2"
+            android:layout_height="wrap_content"
             android:hint="Enter your name" />
-
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:textSize="22sp"
+        android:text="Enter your guess"
+        android:gravity="left" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_marginTop="10dp">
 
-        <Button
+        <ImageButton
             android:id="@+id/decrementButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:text="-"
+            android:src="@drawable/ic_minus_btn"
             android:background="?android:attr/selectableItemBackground"
-            android:gravity="center"/>
+            android:contentDescription="Decrement"
+            android:scaleType="centerInside" />
 
         <EditText
             android:id="@+id/guessNumberEditText"
@@ -45,22 +55,27 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:inputType="number"
-            android:hint="Enter your guess" />
+            android:gravity="center" />
 
-        <Button
+        <ImageButton
             android:id="@+id/incrementButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:text="+"
+            android:src="@drawable/ic_plusbtn"
             android:background="?android:attr/selectableItemBackground"
-            android:gravity="center"/>
-
+            android:contentDescription="Increment"
+            android:scaleType="centerInside" />
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
     <Button
         android:id="@+id/submitGuessButton"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:text="OK" />
-
 </LinearLayout>

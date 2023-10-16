@@ -3,5 +3,7 @@
     android:id="@+id/attemptsTextView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    android:gravity="top|start"
+    android:textSize="20sp"
+    android:layout_marginLeft="5dp"
     android:text="Number of attempts: 0" />
