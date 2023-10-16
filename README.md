@@ -19,7 +19,7 @@ Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
 
-<img src='https://github.com/magacek/Midterm_project/assets/70607808/d07b1870-c02a-4fbc-839f-533ebf8c6981' width='80%' alt='Video Walkthrough' />
+<img src='https://github.com/magacek/Midterm_project/assets/70607808/d07b1870-c02a-4fbc-839f-533ebf8c6981' width='40%' alt='Video Walkthrough' />
 
 
 
